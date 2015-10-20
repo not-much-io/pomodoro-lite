@@ -91,6 +91,37 @@
                     <div class="mdl-layout-spacer"></div>
                 </div>
 
+                <div class="mdl-grid">
+                    <div class="mdl-layout-spacer"></div>
+                    <div class="mdl-cell mdl-cell--4-col">
+
+                        <p class="range-field">
+                            <label id="longRestTimeLbl"
+                                   for="longRestTime">Long Rest Time</label>
+                            <input id="longRestTime" class="mdl-slider mdl-js-slider" type="range"
+                                   min="0" max="100" value="5" tabindex="0" onchange="setSetting('longRestT', this.value)"/>
+                        </p>
+
+                    </div>
+                    <div class="mdl-layout-spacer"></div>
+                </div>
+
+
+                <div class="mdl-grid">
+                    <div class="mdl-layout-spacer"></div>
+                    <div class="mdl-cell mdl-cell--4-col">
+
+                        <p class="range-field">
+                            <label id="intervalsUntilLongRestLbl"
+                                   for="intervalsUntilLongRest">Intervals Until Long Rest</label>
+                            <input id="intervalsUntilLongRest" class="mdl-slider mdl-js-slider" type="range"
+                                   min="0" max="100" value="5" tabindex="0" onchange="setSetting('intervalsUntilLongRest', this.value)"/>
+                        </p>
+
+                    </div>
+                    <div class="mdl-layout-spacer"></div>
+                </div>
+
             </div>
         </main>
 
