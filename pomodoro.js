@@ -18,6 +18,9 @@
 
     window.pomWorkTime = 25*60;
     window.pomRestTime = 5*60;
+    window.longRestTime = 60*60;
+    window.intervalsUntilNextLongRest = 4;
+    window.intervalSwitches = 1;
 
 })();
 
@@ -26,6 +29,10 @@ function setSetting(setting, val) {
         window.pomWorkTime = val*60;
     } else if (setting == "restT") {
         window.pomRestTime = val*60;
+    } else if (setting == "longRestT") {
+        window.longRestTime = val*2;
+    } else if (setting == "intervalsUntilLongRest") {
+        window.intervalsUntilNextLongRest = val;
     } else {
         console.log("Undefined setting");
     }
@@ -41,10 +48,16 @@ function notify() {
 function syncStateAndDom() {
     var workTimeLbl = document.getElementById("workTimeLbl");
     var restTimeLbl = document.getElementById("restTimeLbl");
+    var longRestLbl = document.getElementById("longRestTimeLbl");
+    var intervalsLbl = document.getElementById("intervalsUntilLongRestLbl");
     var display = document.getElementById("display");
 
+    //ToDo refactor
     workTimeLbl.textContent = "Work Time (" + window.pomWorkTime/60 + " min)";
     restTimeLbl.textContent = "Rest Time (" + window.pomRestTime/60 + " min)";
+    longRestLbl.textContent = "Long Rest Time (" + window.longRestTime/60 + " min)";
+    intervalsLbl.textContent = "Intervals Until Long Rest (" + window.intervalsUntilNextLongRest + ")";
+
     display.textContent = pomTimeToLabel(window.currPomTime);
 }
 
@@ -82,20 +95,18 @@ function pomTimeToLabel(pomRunTime) {
 
 
 function toggleState() {
-
     var actionButtonIcon = document.getElementById("actionButtonIcon");
 
     if (window.pomState == window.Constants.STOPPED) {
-
         window.pomState = window.Constants.RUNNING;
         window.currPomTime = window.pomWorkTime;
 
         actionButtonIcon.textContent = "stop";
 
     } else if (window.pomState == window.Constants.RUNNING) {
-
         window.pomState = window.Constants.STOPPED;
         window.currPomTime = -1;
+        window.intervalSwitches = 1;
 
         actionButtonIcon.textContent = "play_arrow"
 
@@ -113,6 +124,7 @@ function updateTimer() {
     if (!isOver(window.currPomTime)) {
         window.currPomTime--;
     } else {
+        window.intervalSwitches++;
         notify();
         var tmpNextInterval = window.pomNextInterval;
 
@@ -122,7 +134,12 @@ function updateTimer() {
         if (window.pomInterval == window.Constants.INTERVAL_WORK) {
             window.currPomTime = window.pomWorkTime;
         } else if (window.pomInterval == window.Constants.INTERVAL_REST) {
-            window.currPomTime = window.pomRestTime;
+            if (window.intervalSwitches / 2 == window.intervalsUntilNextLongRest) {
+                window.intervalSwitches = 0;
+                window.currPomTime = window.longRestTime;
+            } else {
+                window.currPomTime = window.pomRestTime;
+            }
         } else {
             console.log("Undefined interval");
         }
