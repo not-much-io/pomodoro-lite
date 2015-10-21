@@ -30,7 +30,7 @@ function setSetting(setting, val) {
     } else if (setting == "restT") {
         window.pomRestTime = val*60;
     } else if (setting == "longRestT") {
-        window.longRestTime = val*2;
+        window.longRestTime = val*60;
     } else if (setting == "intervalsUntilLongRest") {
         window.intervalsUntilNextLongRest = val;
     } else {
