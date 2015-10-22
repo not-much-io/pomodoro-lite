@@ -13,3 +13,7 @@
     right: 10px;
     z-index: 1;
 }
+
+.active-interval-lbl {
+    color: darkorange;
+}

@@ -41,7 +41,6 @@ function setSetting(setting, val) {
 function notify() {
     var audio = new Audio("resources/chime.ogg");
     audio.play();
-    //ToDo get better mp file
 }
 
 
@@ -66,7 +65,7 @@ function pomTimeToLabel(pomRunTime) {
 
     //ToDo add actual label for states
     if (pomRunTime == -1) {
-        return "00:00:00" + " ina.";
+        return "00:00:00";
     }
 
     function pad(x) {
@@ -89,8 +88,7 @@ function pomTimeToLabel(pomRunTime) {
 
     return  pad(hours.toString()) + ":" +
         pad(minutes.toString()) + ":" +
-        pad(seconds.toString()) +
-        (window.pomInterval == window.Constants.INTERVAL_WORK ? " wrk." : " rst.");
+        pad(seconds.toString());
 }
 
 
@@ -125,6 +123,11 @@ function updateTimer() {
         window.currPomTime--;
     } else {
         window.intervalSwitches++;
+        //ToDo refactor
+        var activeLbl = document.getElementsByClassName("active-interval-lbl")[0];
+        if (activeLbl) {
+            activeLbl.className = activeLbl.className.replace(" active-interval-lbl", "");
+        }
         notify();
         var tmpNextInterval = window.pomNextInterval;
 
@@ -133,16 +136,20 @@ function updateTimer() {
 
         if (window.pomInterval == window.Constants.INTERVAL_WORK) {
             window.currPomTime = window.pomWorkTime;
+            activeLbl = document.getElementById("workTimeLbl");
         } else if (window.pomInterval == window.Constants.INTERVAL_REST) {
             if (window.intervalSwitches / 2 == window.intervalsUntilNextLongRest) {
                 window.intervalSwitches = 0;
                 window.currPomTime = window.longRestTime;
+                activeLbl = document.getElementById("longRestTimeLbl");
             } else {
                 window.currPomTime = window.pomRestTime;
+                activeLbl = document.getElementById("restTimeLbl");
             }
         } else {
             console.log("Undefined interval");
         }
+        activeLbl.className += " active-interval-lbl";
     }
 }
 
@@ -150,12 +157,21 @@ function startPomodoro() {
     window.pomInterval = window.Constants.INTERVAL_WORK;
     window.pomNextInterval = window.Constants.INTERVAL_REST;
 
+    //ToDo refactor
+    var workLbl = document.getElementById("workTimeLbl");
+    workLbl.className += " active-interval-lbl";
+
     toggleState();
 
     window.intervalID = window.setInterval(updateTimer, 1000)
 }
 
 function stopPomodoro() {
+    //ToDo refactor
+    var activeLbl = document.getElementsByClassName("active-interval-lbl")[0];
+    if (activeLbl) {
+        activeLbl.className = activeLbl.className.replace(" active-interval-lbl", "");
+    }
     toggleState();
     clearInterval(window.intervalID);
 }
