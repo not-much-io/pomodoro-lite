@@ -39,7 +39,7 @@ function setSetting(setting, val) {
 }
 
 function notify() {
-    var audio = new Audio("resources/notif.mp3");
+    var audio = new Audio("resources/chime.ogg");
     audio.play();
     //ToDo get better mp file
 }
