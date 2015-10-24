@@ -17,7 +17,7 @@
         this.hide();
 
         // Show tray
-        tray = new gui.Tray({ title: 'Tray', icon: 'resources/abstract.png' });
+        tray = new gui.Tray({ title: 'Tray', icon: 'resources/abstract24px.png' });
 
         // Show window and remove tray when clicked
         tray.on('click', function() {

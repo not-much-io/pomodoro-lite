@@ -1,10 +1,11 @@
 
 #displayContainer {
-    background-color: #E0E0E0;
+   background-color: #F44336;
 }
 
 #display {
     text-align: center;
+    color: white;
 }
 
 .fixed-bottom-fab {
@@ -15,5 +16,5 @@
 }
 
 .active-interval-lbl {
-    color: darkorange;
+    color: #F44336;
 }

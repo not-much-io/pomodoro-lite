@@ -7,7 +7,7 @@
     <title>Pomodoro Lite</title>
 
     <link rel=stylesheet type="text/css" href="styles.css">
-    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.grey-orange.min.css" />
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.red-orange.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,6 +22,7 @@
                  style="padding: 0"> <!-- Hacky... -->
                 <div class="mdl-layout-spacer"></div>
 
+                <img src="resources/abstract40px.png">
                 <span class="mdl-layout-title">Pomodoro lite</span>
 
                 <div class="mdl-layout-spacer"></div>
@@ -70,7 +71,7 @@
                             <label id="workTimeLbl"
                                    for="workTime">Work Time</label>
                             <input id="workTime" class="mdl-slider mdl-js-slider" type="range"
-                                   min="0" max="100" value="25" tabindex="0" onchange="setSetting('workT', this.value)"/>
+                                   min="0" max="60" value="25" tabindex="0" onchange="setSetting('workT', this.value)"/>
                         </p>
 
                     </div>
@@ -85,7 +86,7 @@
                             <label id="restTimeLbl"
                                    for="restTime">Rest Time</label>
                             <input id="restTime" class="mdl-slider mdl-js-slider" type="range"
-                                   min="0" max="100" value="5" tabindex="0" onchange="setSetting('restT', this.value)"/>
+                                   min="0" max="60" value="5" tabindex="0" onchange="setSetting('restT', this.value)"/>
                         </p>
 
                     </div>
@@ -100,7 +101,7 @@
                             <label id="longRestTimeLbl"
                                    for="longRestTime">Long Rest Time</label>
                             <input id="longRestTime" class="mdl-slider mdl-js-slider" type="range"
-                                   min="0" max="100" value="5" tabindex="0" onchange="setSetting('longRestT', this.value)"/>
+                                   min="0" max="60" value="45" tabindex="0" onchange="setSetting('longRestT', this.value)"/>
                         </p>
 
                     </div>
@@ -116,7 +117,7 @@
                             <label id="intervalsUntilLongRestLbl"
                                    for="intervalsUntilLongRest">Intervals Until Long Rest</label>
                             <input id="intervalsUntilLongRest" class="mdl-slider mdl-js-slider" type="range"
-                                   min="0" max="100" value="5" tabindex="0" onchange="setSetting('intervalsUntilLongRest', this.value)"/>
+                                   min="0" max="10" value="5" tabindex="0" onchange="setSetting('intervalsUntilLongRest', this.value)"/>
                         </p>
 
                     </div>
