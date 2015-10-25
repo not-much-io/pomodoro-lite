@@ -51,7 +51,6 @@ function syncStateAndDom() {
     var intervalsLbl = document.getElementById("intervalsUntilLongRestLbl");
     var display = document.getElementById("display");
 
-    //ToDo refactor
     workTimeLbl.textContent = "Work Time (" + window.pomWorkTime/60 + " min)";
     restTimeLbl.textContent = "Rest Time (" + window.pomRestTime/60 + " min)";
     longRestLbl.textContent = "Long Rest Time (" + window.longRestTime/60 + " min)";
@@ -63,7 +62,6 @@ function syncStateAndDom() {
 
 function pomTimeToLabel(pomRunTime) {
 
-    //ToDo add actual label for states
     if (pomRunTime == -1) {
         return "00:00:00";
     }
@@ -86,9 +84,7 @@ function pomTimeToLabel(pomRunTime) {
         hours++;
     }
 
-    return  pad(hours.toString()) + ":" +
-        pad(minutes.toString()) + ":" +
-        pad(seconds.toString());
+    return pad(hours.toString()) + ":" + pad(minutes.toString()) + ":" + pad(seconds.toString());
 }
 
 
@@ -118,38 +114,42 @@ function isOver(pomodoroRunningTime) {
     return pomodoroRunningTime <= 0;
 }
 
+function turnOffActiveLbl() {
+    var activeLbl = document.getElementsByClassName("active-interval-lbl")[0];
+    if (activeLbl) {
+        activeLbl.className = activeLbl.className.replace(" active-interval-lbl", "");
+    }
+}
+
 function updateTimer() {
     if (!isOver(window.currPomTime)) {
         window.currPomTime--;
     } else {
         window.intervalSwitches++;
-        //ToDo refactor
-        var activeLbl = document.getElementsByClassName("active-interval-lbl")[0];
-        if (activeLbl) {
-            activeLbl.className = activeLbl.className.replace(" active-interval-lbl", "");
-        }
+        turnOffActiveLbl();
         notify();
         var tmpNextInterval = window.pomNextInterval;
+        var newActiveLbl;
 
         window.pomNextInterval = window.pomInterval;
         window.pomInterval = tmpNextInterval;
 
         if (window.pomInterval == window.Constants.INTERVAL_WORK) {
             window.currPomTime = window.pomWorkTime;
-            activeLbl = document.getElementById("workTimeLbl");
+            newActiveLbl = document.getElementById("workTimeLbl");
         } else if (window.pomInterval == window.Constants.INTERVAL_REST) {
             if (window.intervalSwitches / 2 == window.intervalsUntilNextLongRest) {
                 window.intervalSwitches = 0;
                 window.currPomTime = window.longRestTime;
-                activeLbl = document.getElementById("longRestTimeLbl");
+                newActiveLbl = document.getElementById("longRestTimeLbl");
             } else {
                 window.currPomTime = window.pomRestTime;
-                activeLbl = document.getElementById("restTimeLbl");
+                newActiveLbl = document.getElementById("restTimeLbl");
             }
         } else {
             console.log("Undefined interval");
         }
-        activeLbl.className += " active-interval-lbl";
+        newActiveLbl.className += " active-interval-lbl";
     }
 }
 
@@ -157,7 +157,6 @@ function startPomodoro() {
     window.pomInterval = window.Constants.INTERVAL_WORK;
     window.pomNextInterval = window.Constants.INTERVAL_REST;
 
-    //ToDo refactor
     var workLbl = document.getElementById("workTimeLbl");
     workLbl.className += " active-interval-lbl";
 
@@ -167,11 +166,7 @@ function startPomodoro() {
 }
 
 function stopPomodoro() {
-    //ToDo refactor
-    var activeLbl = document.getElementsByClassName("active-interval-lbl")[0];
-    if (activeLbl) {
-        activeLbl.className = activeLbl.className.replace(" active-interval-lbl", "");
-    }
+    turnOffActiveLbl();
     toggleState();
     clearInterval(window.intervalID);
 }
