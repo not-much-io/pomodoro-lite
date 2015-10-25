@@ -51,7 +51,7 @@
 
                         <button id="actionButton"
                                 onclick="onActionButtonClicked()"
-                                class="fixed-bottom-fab mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect
+                                class="fixed-edge-fab mdl-button mdl-js-button mdl-button--fab mdl-js-ripple
                                        mdl-button--colored mdl-shadow--8dp">
 
                             <img id="actionButtonIcon"
@@ -84,7 +84,8 @@
 
                         <p class="range-field">
                             <label id="restTimeLbl"
-                                   for="restTime">Rest Time</label>
+                                   for="restTime"
+                                   class="h6">Rest Time</label>
                             <input id="restTime" class="mdl-slider mdl-js-slider" type="range"
                                    min="0" max="60" value="5" tabindex="0" onchange="setSetting('restT', this.value)"/>
                         </p>

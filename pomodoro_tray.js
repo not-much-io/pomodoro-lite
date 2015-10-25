@@ -26,6 +26,7 @@
     };
 
     // Adding menu items to menu
+    // ToDo make it impossible to Start when running and stop when stopped - quick fix implemented
     menu.append(startMenuItem);
     menu.append(stopMenuItem);
     menu.append(new gui.MenuItem({ type: 'separator' }));

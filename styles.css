@@ -8,7 +8,7 @@
     color: white;
 }
 
-.fixed-bottom-fab {
+.fixed-edge-fab {
     position: fixed;
     bottom: 45px;
     right: 10px;
