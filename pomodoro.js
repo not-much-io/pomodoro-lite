@@ -95,14 +95,14 @@ function toggleState() {
         window.pomState = window.Constants.RUNNING;
         window.currPomTime = window.pomWorkTime;
 
-        actionButtonIcon.textContent = "stop";
+        actionButtonIcon.src = "resources/mdl/ic_stop_24px.svg";
 
     } else if (window.pomState == window.Constants.RUNNING) {
         window.pomState = window.Constants.STOPPED;
         window.currPomTime = -1;
         window.intervalSwitches = 1;
 
-        actionButtonIcon.textContent = "play_arrow"
+        actionButtonIcon.src = "resources/mdl/ic_play_arrow_24px.svg";
 
     } else {
         console.log("Undefined pomState");
