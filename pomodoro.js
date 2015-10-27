@@ -38,12 +38,6 @@ function setSetting(setting, val) {
     }
 }
 
-function notify() {
-    var audio = new Audio("resources/chime.ogg");
-    audio.play();
-}
-
-
 function syncStateAndDom() {
     var workTimeLbl = document.getElementById("workTimeLbl");
     var restTimeLbl = document.getElementById("restTimeLbl");
@@ -127,7 +121,6 @@ function updateTimer() {
     } else {
         window.intervalSwitches++;
         turnOffActiveLbl();
-        notify();
         var tmpNextInterval = window.pomNextInterval;
         var newActiveLbl;
 
@@ -136,15 +129,19 @@ function updateTimer() {
 
         if (window.pomInterval == window.Constants.INTERVAL_WORK) {
             window.currPomTime = window.pomWorkTime;
+            // ToDo refactor to interval start function
             newActiveLbl = document.getElementById("workTimeLbl");
+            notify("Work", window.pomWorkTime);
         } else if (window.pomInterval == window.Constants.INTERVAL_REST) {
             if (window.intervalSwitches / 2 == window.intervalsUntilNextLongRest) {
                 window.intervalSwitches = 0;
                 window.currPomTime = window.longRestTime;
                 newActiveLbl = document.getElementById("longRestTimeLbl");
+                notify("Long Rest", window.longRestTime);
             } else {
                 window.currPomTime = window.pomRestTime;
                 newActiveLbl = document.getElementById("restTimeLbl");
+                notify("Rest", window.pomRestTime);
             }
         } else {
             console.log("Undefined interval");
