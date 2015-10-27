@@ -151,10 +151,6 @@ function updateTimer() {
 }
 
 function startPomodoro() {
-    // ToDo this is a quick fix
-    if (window.pomState != window.Constants.STOPPED) {
-        return;
-    }
     window.pomInterval = window.Constants.INTERVAL_WORK;
     window.pomNextInterval = window.Constants.INTERVAL_REST;
 
@@ -167,10 +163,6 @@ function startPomodoro() {
 }
 
 function stopPomodoro() {
-    // ToDo this is a quick fix
-    if (window.pomState == window.Constants.STOPPED) {
-        return;
-    }
     turnOffActiveLbl();
     toggleState();
     clearInterval(window.intervalID);
