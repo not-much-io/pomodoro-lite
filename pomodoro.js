@@ -18,7 +18,7 @@
 
     window.pomWorkTime = 25*60;
     window.pomRestTime = 5*60;
-    window.longRestTime = 45*60;
+    window.longRestTime = 30*60;
     window.intervalsUntilNextLongRest = 4;
     window.intervalSwitches = 1;
 

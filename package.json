@@ -1,6 +1,6 @@
 {
   "name": "pomodoro-lite",
-  "version": "0.0.2",
+  "version": "0.1",
   "main": "app.html",
   "window": {
     "title": "pomodoro-lite",
@@ -8,6 +8,6 @@
     "toolbar": false,
     "frame": true,
     "width": 350,
-    "height": 600
+    "height": 575
   }
 }
