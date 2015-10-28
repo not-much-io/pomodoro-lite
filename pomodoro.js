@@ -20,7 +20,7 @@
 
     window.pomWorkTime = 25*60;
     window.pomRestTime = 5*60;
-    window.longRestTime = 30*60;
+    window.pomLongRestTime = 30*60;
     window.intervalsUntilNextLongRest = 4;
     window.intervalSwitches = 1;
 
@@ -32,7 +32,7 @@ function setSetting(setting, val) {
     } else if (setting == "restT") {
         window.pomRestTime = val*60;
     } else if (setting == "longRestT") {
-        window.longRestTime = val*60;
+        window.pomLongRestTime = val*60;
     } else if (setting == "intervalsUntilLongRest") {
         window.intervalsUntilNextLongRest = val;
     } else {
@@ -49,7 +49,7 @@ function syncStateAndDom() {
 
     workTimeLbl.textContent = "Work Time (" + window.pomWorkTime/60 + " min)";
     restTimeLbl.textContent = "Rest Time (" + window.pomRestTime/60 + " min)";
-    longRestLbl.textContent = "Long Rest Time (" + window.longRestTime/60 + " min)";
+    longRestLbl.textContent = "Long Rest Time (" + window.pomLongRestTime/60 + " min)";
     intervalsLbl.textContent = "Intervals Until Long Rest (" + window.intervalsUntilNextLongRest + ")";
 
     display.textContent = pomTimeToLabel(window.currPomTime);
@@ -117,23 +117,10 @@ function turnOffActiveLbl() {
     }
 }
 
-function intervalStart(interval) {
-    //ToDo refactor
-    if (interval == window.Constants.INTERVAL_WORK) {
-        window.currPomTime = window.pomWorkTime;
-        notify("work", window.pomWorkTime);
-        document.getElementById("workTimeLbl").className += " active-interval-lbl";
-    } else if (interval == window.Constants.INTERVAL_REST) {
-        window.currPomTime = window.pomRestTime;
-        notify("rest", window.pomRestTime);
-        document.getElementById("restTimeLbl").className += " active-interval-lbl";
-    } else if (interval == window.Constants.INTERVAL_LONG_REST) {
-        window.currPomTime = window.longRestTime;
-        notify("long rest", window.longRestTime);
-        document.getElementById("longRestTimeLbl").className += " active-interval-lbl";
-    } else {
-        console.log("Undefined interval!");
-    }
+function intervalStart(time, notifyLbl, lblId) {
+    window.currPomTime = time;
+    notify(notifyLbl, time);
+    document.getElementById(lblId).className += " active-interval-lbl";
 }
 
 function updateTimer() {
@@ -148,13 +135,13 @@ function updateTimer() {
         window.pomInterval = tmpNextInterval;
 
         if (window.pomInterval == window.Constants.INTERVAL_WORK) {
-            intervalStart(window.Constants.INTERVAL_WORK);
+            intervalStart(window.pomWorkTime, "Work", "workTimeLbl");
         } else if (window.pomInterval == window.Constants.INTERVAL_REST) {
             if (window.intervalSwitches / 2 == window.intervalsUntilNextLongRest) {
                 window.intervalSwitches = 0;
-                intervalStart(window.Constants.INTERVAL_LONG_REST)
+                intervalStart(window.pomLongRestTime, "Long Rest", "longRestTimeLbl");
             } else {
-                intervalStart(window.Constants.INTERVAL_REST)
+                intervalStart(window.pomRestTime, "Rest", "restTimeLbl");
             }
         } else {
             console.log("Undefined interval");
