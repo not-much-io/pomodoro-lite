@@ -5,7 +5,9 @@
         STOPPED : "The pomodoro is stopped",
         RUNNING : "The pomodoro is running",
         INTERVAL_WORK: "The pomodoro is in work mode",
-        INTERVAL_REST: "The pomodoro is in rest mode"
+        INTERVAL_REST: "The pomodoro is in rest mode",
+        //Not actually used as separate state, as long rest works as normal rest, just used to signify  ToDo refactor?
+        INTERVAL_LONG_REST: "Reference to long rest more"
     };
 
     window.pomState = window.Constants.STOPPED;
@@ -115,6 +117,25 @@ function turnOffActiveLbl() {
     }
 }
 
+function intervalStart(interval) {
+    //ToDo refactor
+    if (interval == window.Constants.INTERVAL_WORK) {
+        window.currPomTime = window.pomWorkTime;
+        notify("work", window.pomWorkTime);
+        document.getElementById("workTimeLbl").className += " active-interval-lbl";
+    } else if (interval == window.Constants.INTERVAL_REST) {
+        window.currPomTime = window.pomRestTime;
+        notify("rest", window.pomRestTime);
+        document.getElementById("restTimeLbl").className += " active-interval-lbl";
+    } else if (interval == window.Constants.INTERVAL_LONG_REST) {
+        window.currPomTime = window.longRestTime;
+        notify("long rest", window.longRestTime);
+        document.getElementById("longRestTimeLbl").className += " active-interval-lbl";
+    } else {
+        console.log("Undefined interval!");
+    }
+}
+
 function updateTimer() {
     if (!isOver(window.currPomTime)) {
         window.currPomTime--;
@@ -122,31 +143,22 @@ function updateTimer() {
         window.intervalSwitches++;
         turnOffActiveLbl();
         var tmpNextInterval = window.pomNextInterval;
-        var newActiveLbl;
 
         window.pomNextInterval = window.pomInterval;
         window.pomInterval = tmpNextInterval;
 
         if (window.pomInterval == window.Constants.INTERVAL_WORK) {
-            window.currPomTime = window.pomWorkTime;
-            // ToDo refactor to interval start function
-            newActiveLbl = document.getElementById("workTimeLbl");
-            notify("Work", window.pomWorkTime);
+            intervalStart(window.Constants.INTERVAL_WORK);
         } else if (window.pomInterval == window.Constants.INTERVAL_REST) {
             if (window.intervalSwitches / 2 == window.intervalsUntilNextLongRest) {
                 window.intervalSwitches = 0;
-                window.currPomTime = window.longRestTime;
-                newActiveLbl = document.getElementById("longRestTimeLbl");
-                notify("Long Rest", window.longRestTime);
+                intervalStart(window.Constants.INTERVAL_LONG_REST)
             } else {
-                window.currPomTime = window.pomRestTime;
-                newActiveLbl = document.getElementById("restTimeLbl");
-                notify("Rest", window.pomRestTime);
+                intervalStart(window.Constants.INTERVAL_REST)
             }
         } else {
             console.log("Undefined interval");
         }
-        newActiveLbl.className += " active-interval-lbl";
     }
 }
 
